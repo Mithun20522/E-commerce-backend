@@ -1,0 +1,25 @@
+############# E commerce backend (Rough Overview) ################
+
+Stack holders - Seller, buyers, Admin
+
+1. Authentication & Authorization
+    - Registration
+    - Login
+    - forget password
+
+
+for Seller:
+    - Add
+    - View Orders
+    - update
+    - delete
+    - Order History
+
+for Buyer:
+    - Buy
+    - Search
+    - Rate & Review
+
+for Admin:
+    - Overview
+    - Remove User {seller/buyers}
