@@ -2,33 +2,20 @@ import User from "../models/user.model.js";
 
 export const registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
-      return res
-            .status(400)
-            .send("All fields are mandatory");
-    }
-    const newUser = {
-      username,
-      email,
-      password,
-    };
-
-    const isExist = User.find(newUser);
-
-    if (isExist) {
-      return res
-            .status(400)
-            .send("User already exist");
-    } else {
-      await User.createCollection(newUser);
-      return res
-            .status(201)
-            .send({ message: "Registration Successfull" }, newUser);
-    }
+    const {username, email, password} = req.body;
+    User.findOne({email})
+    .then(async (user) => {
+      if(user) return res.status(400).send('User Already Exist');
+      const newUser = new User({
+        username,
+        email,
+        password
+      })
+      await newUser.save();
+      return res.status(201).send(newUser);
+    })
+    .catch((err) => res.status(500).send({message: 'error occured', err}))
   } catch (error) {
-    return res
-            .status(500)
-            .send("Internal server error");
+    return res.status(500).send('Internal server error: ', error);
   }
 };
