@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import bcryptjs from 'bcryptjs';
 
 export const registerUser = async (req, res) => {
   try {
@@ -19,3 +20,19 @@ export const registerUser = async (req, res) => {
     return res.status(500).send('Internal server error: ', error);
   }
 };
+
+export const loginUser = async(req, res) => {
+  try {
+    const {email, password} = req.body;
+    User.findOne({email, password})
+    .then((user) => {
+      if(user) return res.status(201).send('Login Successfull');
+      return res.status(404).send('User not found');
+    })
+    .catch((err) => {
+      return res.status(500).send('Internal server error', err);
+    })
+  } catch (error) {
+    return res.status(500).send('Internal server error', error);
+  }
+}
